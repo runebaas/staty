@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2018",
+    "lib": ["es2015", "es2016", "es2017", "es2018", "esnext", "dom"],
+    "outDir": "./build",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "newLine": "LF",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./.cache/buildinfo.json",
+    "alwaysStrict": true,
+    "pretty": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
