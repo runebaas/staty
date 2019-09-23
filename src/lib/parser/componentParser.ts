@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import cheerio from 'cheerio';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
@@ -8,42 +8,33 @@ import { ParserOptions } from './parserOptionsModel';
 
 const readFile = promisify(fs.readFile);
 
-export async function parser(basePath: string, options: ParserOptions): Promise<Document> {
+export async function parser(basePath: string, options: ParserOptions): Promise<CheerioStatic> {
   const filePath = path.resolve(basePath, options.componentPath);
 
   const entry = await readFile(filePath);
-  const dom = new JSDOM(entry);
-  const { document } = dom.window;
+  const document = cheerio.load(entry);
 
-  const refs = Array.from(document.getElementsByTagName('ref'));
-  for (const ref of refs) {
-    const refName = ref.attributes.getNamedItem('name');
+  document('ref').map((i, e) => e.attribs.id = v4());
+  document('ref').each((i, ref) => {
     try {
-      ref.replaceWith(options.props[refName.value || '']);
+      document(`#${ref.attribs.id}`).replaceWith(options.props[ref.attribs.name]);
     } catch (e) {
-      throw new Error(`failed to substitute ${refName.value}`);
+      throw new Error(`failed to substitute ref "${ref.attribs.name || '(anonymous)'}" in ${filePath}`);
     }
-  }
+  });
 
-  // eslint-disable-next-line unicorn/prefer-spread
-  const components = Array.from(document.getElementsByTagName('component'));
-  for (const comp of components) {
+  document('component').map((i, e) => e.attribs.id = v4());
+  document('component').each(async (i, comp) => {
     const info = parseComponentInfo(comp);
-    comp.id = v4();
     const res = await parser(path.dirname(filePath), { componentPath: info.path, props: info.props });
-    comp.replaceWith(res.querySelector('slot').children.item(0));
-  }
+    document(`#${comp.attribs.id}`).replaceWith(res('slot').html());
+  });
 
   return document;
 }
 
-function parseComponentInfo(component: Element): ComponentInfo {
-  // @ts-ignore
-  const { path: componentPath, ...props } = Array.from(component.attributes)
-    .reduce((result, attr) => {
-      result[attr.name] = attr.value;
-      return result;
-    }, {}) as {[name: string]: string };
+function parseComponentInfo(component: CheerioElement): ComponentInfo {
+  const { path: componentPath, ...props } = component.attribs;
   return {
     path: componentPath,
     props: props

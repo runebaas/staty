@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { parser } from './lib/parser/componentParser';
-import { JSDOM } from 'jsdom';
+import cheerio from 'cheerio';
 import { promisify } from 'util';
 
 (async () => {
@@ -10,7 +10,9 @@ import { promisify } from 'util';
     componentPath: entryFile
   });
   const entryFileContent = await promisify(fs.readFile)(entryFile);
-  const dom = new JSDOM(entryFileContent);
-  dom.window.document.body.replaceWith(res.body);
-  console.log(dom.serialize());
+  const dom = cheerio.load(entryFileContent);
+  dom('body').replaceWith(res('body'));
+  console.log(dom.html({
+    normalizeWhitespace: true
+  }));
 })();
