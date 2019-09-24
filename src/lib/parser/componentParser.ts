@@ -24,11 +24,14 @@ export async function parser(basePath: string, options: ParserOptions): Promise<
   });
 
   document('component').map((i, e) => e.attribs.id = v4());
-  document('component').each(async (i, comp) => {
+  
+  const componentReplace: Promise<void>[] = [];
+  document('component').each((i, comp) => componentReplace.push((async () => {
     const info = parseComponentInfo(comp);
     const res = await parser(path.dirname(filePath), { componentPath: info.path, props: info.props });
     document(`#${comp.attribs.id}`).replaceWith(res('slot').html());
-  });
+  })()));
+  await Promise.all(componentReplace);
 
   return document;
 }
