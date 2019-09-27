@@ -3,21 +3,15 @@
  * this is super WIP, hacked and doesn't even work properly
  */
 
-import {
-  default as parse5,
-  DefaultTreeElement,
-  DefaultTreeNode,
-  DefaultTreeTextNode,
-  DefaultTreeChildNode,
-  DefaultTreeParentNode
-} from 'parse5';
+import * as parse5 from 'parse5';
 import * as path from 'path';
 import { promisify } from 'util';
 import * as fs from 'fs';
+import { TreeElement } from '../../models/treeElementModel';
 
 const readFile = promisify(fs.readFile);
 
-export async function domManager(doc: DefaultTreeElement, scope: Scope): Promise<DefaultTreeNode> {
+export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeElement> {
   switch (doc.nodeName) {
     case '#text':
       return handleText(doc, scope);
@@ -31,11 +25,12 @@ export async function domManager(doc: DefaultTreeElement, scope: Scope): Promise
     return doc;
   }
 
-  const results = (await Promise.all(doc.childNodes.map(node => domManager(<DefaultTreeElement>node, {
+  const results = (await Promise.all(doc.childNodes.map(node => domManager(node, {
     path: scope.path,
-    useCssModule: false,
+    useCssModules: false,
     variables: scope.variables
-  })))).filter(d => d !== null);
+  }))))
+    .filter(d => d !== null);
 
   if (results.length > 0) {
     // eslint-disable-next-line require-atomic-updates
@@ -45,32 +40,40 @@ export async function domManager(doc: DefaultTreeElement, scope: Scope): Promise
   return doc;
 }
 
-async function handleComponent(comp: DefaultTreeElement, scope: Scope): Promise<DefaultTreeNode> {
-  // this is just ridiculous
-  // @ts-ignore
-  const { path: compPath, ...attrs } = comp.attrs.reduce((res, val) => {
+async function handleComponent(comp: TreeElement, scope: Scope): Promise<TreeElement> {
+  const { path: compPath, ...attrs } = comp.attrs.reduce<{[key: string]: string}>((res, val) => {
     res[val.name] = val.value;
     return res;
   }, {});
 
   const filePath = path.resolve(path.dirname(scope.path), compPath);
   const newComp = await loadComponent(filePath);
+
   return domManager(newComp, {
     path: filePath,
-    // @ts-ignore
     variables: attrs,
-    useCssModule: false
+    useCssModules: false
   });
 }
 
-async function loadComponent(filePath: string): Promise<DefaultTreeElement> {
+async function loadComponent(filePath: string): Promise<TreeElement> {
   const entry = await readFile(filePath);
-  const dom = parse5.parse(entry.toString()) as TreeElement;
-  return dom.childNodes[0].childNodes[1].childNodes.find(f => f.tagName === 'slot').childNodes[1];
+  const dom = parse5.parseFragment(entry.toString(), { scriptingEnabled: false }) as TreeElement;
+  try {
+    return dom
+      .childNodes.find(s => s.tagName === 'component')
+      .childNodes.find(s => s.tagName === 'slot')
+      .childNodes.find(s => s.tagName === 'div');
+  } catch (e) {
+    return {
+      nodeName: '#text',
+      value: `---\nRENDER FAILED FOR\n ${filePath}\n ${e.message}\n---`
+    };
+  }
 }
 
-function handleText(doc: DefaultTreeChildNode, scope: Scope): DefaultTreeChildNode {
-  const textNode = doc as DefaultTreeTextNode;
+function handleText(doc: TreeElement, scope: Scope): TreeElement {
+  const textNode = doc;
   const matches = textNode.value.match(/{{(.+)}}/);
   if (matches !== null) {
     textNode.value = scope.variables[matches[1].trim()];
@@ -82,9 +85,6 @@ function handleText(doc: DefaultTreeChildNode, scope: Scope): DefaultTreeChildNo
 export interface Scope {
   variables: {[key: string]: string}
   path: string;
-  useCssModule: boolean
+  useCssModules: boolean
 }
 
-interface TreeElement extends DefaultTreeParentNode, DefaultTreeElement  {
-  childNodes: TreeElement[];
-}

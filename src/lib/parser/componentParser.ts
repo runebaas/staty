@@ -1,9 +1,9 @@
 import cheerio from 'cheerio';
 import * as fs from 'fs';
 import * as path from 'path';
-import { promisify } from 'util';
-import { v4 } from 'uuid';
-import { Component, ComponentDefinition, PropDefinition } from '../../models/componentModel';
+import {promisify} from 'util';
+import {v4} from 'uuid';
+import {Component, ComponentDefinition, PropDefinition} from '../../models/componentModel';
 
 const readFile = promisify(fs.readFile);
 
@@ -53,13 +53,13 @@ export async function parseComponentInfo(workdir: string, component: (CheerioEle
   };
 }
 
-async function loadDocument(filePath): Promise<CheerioStatic> {
+async function loadDocument(filePath: string): Promise<CheerioStatic> {
   const entry = await readFile(filePath);
   return cheerio.load(entry);
 }
 
 function loadDefinition(comp: CheerioStatic): ComponentDefinition {
-  const definition = {
+  const definition: ComponentDefinition = {
     name: 'anonymous',
     props: []
   };
@@ -83,12 +83,10 @@ function loadDefinition(comp: CheerioStatic): ComponentDefinition {
 }
 
 function resolvePropDefinition({ attribs }: CheerioElement): PropDefinition {
-  const definition: PropDefinition = {
+  return {
     name: attribs.content,
     default: attribs.default
   };
-
-  return definition;
 }
 
 function checkForMissingProperties({ definition, propData }: Component): PropDefinition[] {

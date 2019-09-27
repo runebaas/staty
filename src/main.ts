@@ -1,14 +1,15 @@
 import { parseComponentInfo } from './lib/parser/componentParser';
 import * as path from 'path';
-import { default as parse5, DefaultTreeElement } from 'parse5';
+import * as parse5 from 'parse5';
 import { domManager } from './lib/vdom/domHandler';
+import { TreeElement } from './models/treeElementModel';
 
 (async () => {
   const root = await parseComponentInfo(path.resolve('./example'));
-  const dom = parse5.parse(root.document.html());
-  const res = await domManager(<DefaultTreeElement>dom, {
+  const dom = parse5.parse(root.document.html()) as TreeElement;
+  const res = await domManager(dom, {
     path: root.path,
-    useCssModule: false,
+    useCssModules: false,
     variables: root.propData
   });
   const final = parse5.serialize(res);
