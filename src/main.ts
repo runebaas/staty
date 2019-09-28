@@ -1,4 +1,4 @@
-import { parseComponentInfo } from './lib/parser/componentParser';
+import { ReadFile } from './lib/helpers';
 import * as path from 'path';
 import * as parse5 from 'parse5';
 import { domManager } from './lib/domHandler';
@@ -6,12 +6,14 @@ import { TreeElement } from './models/treeElementModel';
 import { html_beautify } from 'js-beautify';
 
 (async () => {
-  const root = await parseComponentInfo(path.resolve('./example'));
-  const dom = parse5.parse(root.document.html()) as TreeElement;
+  const rootPath = path.resolve('./example/index.sty');
+  const root = await ReadFile(rootPath);
+
+  const dom = parse5.parse(root.toString()) as TreeElement;
   const res = await domManager(dom, {
-    path: root.path,
+    path: rootPath,
     useCssModules: false,
-    variables: root.propData
+    variables: {}
   });
   const html = parse5.serialize(res);
   const final = html_beautify(html, {

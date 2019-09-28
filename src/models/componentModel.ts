@@ -1,13 +1,14 @@
+import { TreeElement } from './treeElementModel';
+
 export interface Component {
-  path: string;
-  propData: {[name: string]: string };
   definition: ComponentDefinition;
-  document: CheerioStatic;
+  slot: TreeElement;
 }
 
 export interface ComponentDefinition {
-  name: string;
-  props: PropDefinition[];
+  name?: string;
+  path?: string;
+  props?: PropDefinition[];
 }
 
 export interface PropDefinition {

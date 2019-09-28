@@ -13,9 +13,17 @@ export async function HandleComponent(comp: TreeElement, scope: Scope): Promise<
   const filePath = path.resolve(path.dirname(scope.path), compPath);
   const newComp = await LoadComponent(filePath);
 
-  return domManager(newComp, {
-    path: filePath,
-    variables: attrs,
+  const defaultAttributes = newComp.definition.props.reduce<{[key: string]: string}>((result, prop) => {
+    result[prop.name] = prop.default;
+    return result;
+  }, {});
+
+  return domManager(newComp.slot, {
+    path: newComp.definition.path,
+    variables: {
+      ...defaultAttributes,
+      ...attrs
+    },
     useCssModules: false
   });
 }

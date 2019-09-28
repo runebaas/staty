@@ -1,0 +1,16 @@
+<component>
+  <definition lang="json">
+    {
+      "name": "Title",
+      "props": [
+        {
+          "name": "something-default",
+          "default": "Default text"
+        }
+      ]
+    }
+  </definition>
+  <slot>
+    <h1 class="title">{{ something-default }}</h1>
+  </slot>
+</component>

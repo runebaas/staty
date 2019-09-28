@@ -1,11 +1,6 @@
-/*
- * Disclaimer for anyone ever looking this far back in the commit history,
- * this is super WIP, hacked and doesn't even work properly
- */
-
 import { TreeElement } from '../models/treeElementModel';
 import { HandleComponent } from './nodeHandlers/componentHandler';
-import { HandleText } from './nodeHandlers/testHandler';
+import { HandleText } from './nodeHandlers/textHandler';
 import { Scope } from '../models/scopeModel';
 
 export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeElement> {
@@ -26,18 +21,19 @@ export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeEl
     path: scope.path,
     useCssModules: false,
     variables: scope.variables
-  }))))
-    .filter(d => d !== null);
+  })))).filter(d => d !== null);
 
   if (results.length === 0) {
     return doc;
   }
 
-  const rplc = results.filter(r => r.nodeName === 'rplc').flatMap(r => r.childNodes);
-  const elements = [...results.filter(r => r.nodeName !== 'rplc'), ...rplc];
+  const nodes = results
+    .map(r => [r])
+    .map(r => r[0].nodeName === 'rplc' ? r[0].childNodes : r)
+    .flat();
 
   const newDoc = doc;
-  newDoc.childNodes = elements;
+  newDoc.childNodes = nodes;
   return newDoc;
 }
 
