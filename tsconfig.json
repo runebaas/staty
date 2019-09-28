@@ -1,21 +1,27 @@
 {
   "compilerOptions": {
+    /* Basics */
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2018",
+    "target": "es2017",
     "lib": ["esnext"],
-    "outDir": "./build",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
+
+    /* Build Config */
+    "outDir": "./lib",
+    "declaration": true,
     "sourceMap": false,
+    "declarationMap": false,
+    "preserveConstEnums": true,
+    "removeComments": true,
     "newLine": "LF",
+    "incremental": false,
+
+    /* Language Config */
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "suppressImplicitAnyIndexErrors": false,
-    "incremental": false,
     "alwaysStrict": true,
-    "pretty": false,
     "forceConsistentCasingInFileNames": true
   },
   "include": [

@@ -1,6 +1,8 @@
 import { compile } from './compiler';
 
-compile('./example/index.staty')
+const file = process.argv.find(arg => arg.endsWith('.staty'));
+
+compile(file ? file : './index.staty')
   .then(console.log)
   .catch(console.error);
 

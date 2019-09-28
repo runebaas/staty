@@ -1,10 +1,10 @@
 {
   "name": "staty",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.1.0",
+  "main": "lib/main.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && node ./build/main.js",
+    "start": "tsc && node ./lib/main.js",
     "build": "tsc",
     "lint": "eslint ./src/ --ext .ts"
   },
