@@ -10,5 +10,7 @@
   <p>test 2</p>
   <component path="./components/title.staty"></component>
   <component path="./components/card.staty" card-text="hello airplane"></component>
+  <hr>
+  <component path="./components/markdown.staty"></component>
 </body>
 </html>

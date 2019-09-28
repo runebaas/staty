@@ -5,7 +5,7 @@ import { domManager } from './lib/domHandler';
 import { TreeElement } from './models/treeElementModel';
 import { html_beautify } from 'js-beautify';
 
-export async function parse(rootPath: string): Promise<string> {
+export async function compile(rootPath: string): Promise<string> {
   const resolvedPath = path.resolve(rootPath);
   const root = await ReadFile(resolvedPath);
 

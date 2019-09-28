@@ -1,7 +1,7 @@
-import { parse } from './parser';
+import { compile } from './compiler';
 
-parse('./example/index.staty')
+compile('./example/index.staty')
   .then(console.log)
   .catch(console.error);
 
-export default parse; // eslint-disable-line import/no-default-export
+export default compile; // eslint-disable-line import/no-default-export

@@ -1,6 +1,7 @@
 import { TreeElement } from '../models/treeElementModel';
 import { HandleComponent } from './nodeHandlers/componentHandler';
 import { HandleText } from './nodeHandlers/textHandler';
+import { HandleParseNode } from './nodeHandlers/parseNodeHandler';
 import { Scope } from '../models/scopeModel';
 
 export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeElement> {
@@ -9,6 +10,8 @@ export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeEl
       return HandleText(doc, scope);
     case 'component':
       return HandleComponent(doc, scope);
+    case 'parse':
+      return HandleParseNode(doc, scope);
     default:
       break;
   }
