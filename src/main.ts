@@ -1,7 +1,7 @@
 import { parseComponentInfo } from './lib/parser/componentParser';
 import * as path from 'path';
 import * as parse5 from 'parse5';
-import { domManager } from './lib/vdom/domHandler';
+import { domManager } from './lib/domHandler';
 import { TreeElement } from './models/treeElementModel';
 import { html_beautify } from 'js-beautify';
 
