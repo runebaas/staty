@@ -1,6 +1,6 @@
 import { TreeElement } from '../../models/treeElementModel';
 import * as path from 'path';
-import { LoadComponent } from '../componentLoader';
+import { LoadComponent } from '../componentLoader/componentLoader';
 import { domManager } from '../domHandler';
 import { Scope } from '../../models/scopeModel';
 

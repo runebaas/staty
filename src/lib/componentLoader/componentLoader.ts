@@ -1,7 +1,7 @@
 import * as parse5 from 'parse5';
-import { TreeElement } from '../models/treeElementModel';
-import { Component, ComponentDefinition } from '../models/componentModel';
-import { ReadFile } from './helpers';
+import { TreeElement } from '../../models/treeElementModel';
+import { Component, ComponentDefinition } from '../../models/componentModel';
+import { ReadFile } from '../helpers';
 import yaml from 'js-yaml';
 
 export async function LoadComponent(filePath: string): Promise<Component> {
