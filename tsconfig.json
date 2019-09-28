@@ -3,7 +3,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es2018",
-    "lib": ["es2015", "es2016", "es2017", "es2018", "esnext", "dom"],
+    "lib": ["esnext"],
     "outDir": "./build",
     "noImplicitAny": true,
     "removeComments": true,
@@ -12,11 +12,10 @@
     "newLine": "LF",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "incremental": true,
-    "tsBuildInfoFile": "./.cache/buildinfo.json",
+    "suppressImplicitAnyIndexErrors": false,
+    "incremental": false,
     "alwaysStrict": true,
-    "pretty": true,
+    "pretty": false,
     "forceConsistentCasingInFileNames": true
   },
   "include": [

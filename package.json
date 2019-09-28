@@ -5,16 +5,19 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc && node ./build/main.js",
+    "build": "tsc",
     "lint": "eslint ./src/ --ext .ts"
   },
   "dependencies": {
     "cheerio": "1.0.0-rc.3",
+    "js-beautify": "1.10.2",
     "parse5": "^5.1.0",
     "uuid": "3.3.3"
   },
   "devDependencies": {
     "@types/cheerio": "0.22.13",
     "@types/jest": "24.0.18",
+    "@types/js-beautify": "1.8.1",
     "@types/node": "12.7.5",
     "@types/parse5": "^5.0.2",
     "@types/uuid": "3.4.5",
