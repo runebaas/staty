@@ -32,12 +32,16 @@ export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeEl
   }))))
     .filter(d => d !== null);
 
-  if (results.length > 0) {
-    // eslint-disable-next-line require-atomic-updates
-    doc.childNodes = results;
+  if (results.length === 0) {
+    return doc;
   }
 
-  return doc;
+  const rplc = results.filter(r => r.nodeName === 'rplc').flatMap(r => r.childNodes);
+  const elements = [...results.filter(r => r.nodeName !== 'rplc'), ...rplc];
+
+  const newDoc = doc;
+  newDoc.childNodes = elements;
+  return newDoc;
 }
 
 async function handleComponent(comp: TreeElement, scope: Scope): Promise<TreeElement> {
@@ -60,10 +64,17 @@ async function loadComponent(filePath: string): Promise<TreeElement> {
   const entry = await readFile(filePath);
   const dom = parse5.parseFragment(entry.toString(), { scriptingEnabled: false }) as TreeElement;
   try {
-    return dom
+    const nodes = dom
       .childNodes.find(s => s.tagName === 'component')
       .childNodes.find(s => s.tagName === 'slot')
-      .childNodes.find(s => s.tagName === 'div');
+      .childNodes.filter(s => !(s.value && s.value.startsWith('\n')))
+      .map(({ nodeName, tagName, attrs, childNodes }) => ({ nodeName, tagName, attrs, childNodes }));
+    return {
+      nodeName: 'rplc',
+      tagName: 'rplc',
+      attrs: [],
+      childNodes: nodes
+    };
   } catch (e) {
     return {
       nodeName: '#text',
