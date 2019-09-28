@@ -1,6 +1,6 @@
 import { parse } from './parser';
 
-parse('./example/index.sty')
+parse('./example/index.staty')
   .then(console.log)
   .catch(console.error);
 
