@@ -1,6 +1,1 @@
-# Important Table
-
-| key | value |
-| --- | ----- |
-| a   | 1     |
-| b   | 2     |
+# Important markdown file

@@ -5,12 +5,17 @@
   <link rel="stylesheet" href="./style.scss" />
 </head>
 <body>
-  <p>test</p>
-  <component path="./components/header.staty" component-text="hello world"></component>
-  <p>test 2</p>
-  <component path="./components/title.staty"></component>
-  <component path="./components/card.staty" card-text="hello airplane"></component>
-  <hr>
-  <component path="./components/markdown.staty"></component>
+  <div id="header">
+    <component path="./components/header.staty" component-text="hello world"></component>
+  </div>
+  <div id="title">
+    <component path="./components/title.staty"></component>
+  </div>
+  <div id="card">
+    <component path="./components/card.staty" card-text="hello airplane"></component>
+  </div>
+  <div id="markdown">
+    <component path="./components/markdown.staty"></component>
+  </div>
 </body>
 </html>

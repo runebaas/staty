@@ -13,9 +13,7 @@ export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeEl
   }
 
   const results = (await Promise.all(doc.childNodes.map(node => domManager(node, {
-    path: scope.path,
-    useCssModules: false,
-    variables: scope.variables
+    ...scope
   })))).filter(d => d !== null);
 
   if (results.length === 0) {

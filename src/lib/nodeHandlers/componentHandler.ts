@@ -3,9 +3,10 @@ import * as path from 'path';
 import { LoadComponent } from '../componentLoader/componentLoader';
 import { domManager } from '../domHandler';
 import { Scope } from '../../models/scopeModel';
+import { KeyValue } from '../../models/helperTypes';
 
 export async function HandleComponent(comp: TreeElement, scope: Scope): Promise<TreeElement> {
-  const { path: compPath, ...attrs } = comp.attrs.reduce<{[key: string]: string}>((res, val) => {
+  const { path: compPath, ...attrs } = comp.attrs.reduce<KeyValue>((res, val) => {
     res[val.name] = val.value;
     return res;
   }, {});
@@ -13,7 +14,7 @@ export async function HandleComponent(comp: TreeElement, scope: Scope): Promise<
   const filePath = path.resolve(path.dirname(scope.path), compPath);
   const newComp = await LoadComponent(filePath);
 
-  const defaultAttributes = newComp.definition.props.reduce<{[key: string]: string}>((result, prop) => {
+  const defaultAttributes = newComp.definition.props.reduce<KeyValue>((result, prop) => {
     result[prop.name] = prop.default;
     return result;
   }, {});
@@ -24,6 +25,7 @@ export async function HandleComponent(comp: TreeElement, scope: Scope): Promise<
       ...defaultAttributes,
       ...attrs
     },
+    globalVariables: scope.globalVariables,
     useCssModules: false
   });
 }

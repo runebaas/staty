@@ -2,6 +2,7 @@ import { TreeElement } from '../../models/treeElementModel';
 import { ComponentDefinition } from '../../models/componentModel';
 import yaml from 'js-yaml';
 import { RemoveTextOffset } from '../helpers';
+import { KeyValue } from '../../models/helperTypes';
 
 export function LoadDefinition(dom: TreeElement, filePath: string): ComponentDefinition {
   const definitionNode = dom.childNodes.find(s => s.tagName === 'definition');
@@ -49,7 +50,7 @@ function LoadDefinitionFromHtml(dom: TreeElement): ComponentDefinition {
 
   dom.childNodes.forEach(({ tagName, attrs }) => {
     if (tagName === 'meta') {
-      const attributes = attrs.reduce<{[key: string]: string}>((result, att) => {
+      const attributes = attrs.reduce<KeyValue>((result, att) => {
         result[att.name] = att.value;
         return result;
       }, {});

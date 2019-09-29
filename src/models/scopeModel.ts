@@ -1,5 +1,8 @@
+import { KeyValue } from './helperTypes';
+
 export interface Scope {
-  variables: {[key: string]: string}
+  variables: KeyValue;
+  globalVariables: KeyValue;
   path: string;
   useCssModules: boolean
 }
