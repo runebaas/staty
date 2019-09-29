@@ -1,8 +1,10 @@
 {
-  "name": "staty",
+  "name": "@staty/staty",
   "version": "0.1.0",
   "main": "lib/main.js",
-  "bin": "lib/main.js",
+  "bin": {
+    "staty": "lib/main.js"
+  },
   "license": "MIT",
   "scripts": {
     "start": "tsc && node ./lib/main.js ./example/index.staty",
