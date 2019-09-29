@@ -2,6 +2,7 @@
 /.idea
 /.eslintrc.js
 /example
+/coverage
 /src
 /tsconfig.json
 /tests
