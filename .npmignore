@@ -1,0 +1,6 @@
+/.editorconfig
+/.idea
+/.eslintrc.js
+/example
+/src
+/tsconfig.json
