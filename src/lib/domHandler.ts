@@ -1,19 +1,11 @@
 import { TreeElement } from '../models/treeElementModel';
-import { HandleComponent } from './nodeHandlers/componentHandler';
-import { HandleText } from './nodeHandlers/textHandler';
-import { HandleParseNode } from './nodeHandlers/parseNodeHandler';
 import { Scope } from '../models/scopeModel';
+import { nodeHandlerFunctions } from './nodeHandlers/handlers';
 
 export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeElement> {
-  switch (doc.nodeName) {
-    case '#text':
-      return HandleText(doc, scope);
-    case 'component':
-      return HandleComponent(doc, scope);
-    case 'parse':
-      return HandleParseNode(doc, scope);
-    default:
-      break;
+  const parseFunction = nodeHandlerFunctions[doc.nodeName];
+  if (parseFunction !== undefined) {
+    return parseFunction(doc, scope);
   }
 
   if (doc.childNodes === undefined) {
