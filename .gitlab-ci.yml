@@ -1,0 +1,18 @@
+stages:
+  - Test
+
+default:
+  cache:
+    key: global
+    policy: pull-push
+    paths:
+      - node_modules/
+
+test:
+  image: node
+  stage: Test
+  script:
+    - yarn
+    - yarn lint
+    - yarn test
+    - yarn build

@@ -1,6 +1,7 @@
 /.editorconfig
 /.idea
 /.eslintrc.js
+/.gitlab-ci.yml
 /example
 /coverage
 /src
