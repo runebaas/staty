@@ -2,9 +2,10 @@
   "name": "staty",
   "version": "0.1.0",
   "main": "lib/main.js",
+  "bin": "lib/main.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && node ./lib/main.js",
+    "start": "tsc && node ./lib/main.js ./example/index.staty",
     "build": "tsc",
     "lint": "eslint ./src/ --ext .ts"
   },
