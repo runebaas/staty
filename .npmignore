@@ -4,3 +4,5 @@
 /example
 /src
 /tsconfig.json
+/tests
+/jest.config.js
