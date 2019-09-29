@@ -2,8 +2,9 @@
   <definition>
     <meta name="name" content="Header">
     <meta name="prop" content="component-text" default="abc"/>
+    <meta name="prop" content="prop-value" default="abc"/>
   </definition>
   <slot>
-    <p>{{ component-text }}</p>
+    <p :id="prop-value">{{ component-text }}</p>
   </slot>
 </component>
