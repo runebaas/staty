@@ -6,6 +6,6 @@
     <meta name="prop" content="classes"/>
   </definition>
   <slot>
-    <p :class="classes">{{ some-text }} {{ default-text }}</p>
+    <h1 :class="classes">{{ some-text }} {{ default-text }}</h1>
   </slot>
 </component>

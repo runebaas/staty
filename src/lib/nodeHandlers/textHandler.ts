@@ -5,19 +5,30 @@ import { GenerateErrorNode } from '../errorGenerators';
 export function HandleText(doc: TreeElement, scope: Scope): TreeElement {
   const textNode = doc;
   try {
-    const matches = textNode.value.match(/{{(.+)}}/);
-    if (matches !== null) {
+    const strings = textNode.value.split(/{{(.+?)}}/g);
+
+    if (strings.length > 1) {
       const variables = {
         ...scope.globalVariables,
         ...scope.variables
       };
-      const key = matches[1].trim();
-      if (Object.keys(variables).includes(key)) {
-        textNode.value = variables[key];
-      }
+
+      let isVar = false;
+      textNode.value = strings.map(m => {
+        if (isVar) {
+          isVar = false;
+          const key = m.trim();
+          if (Object.keys(variables).includes(key)) {
+            return variables[key];
+          }
+          return m;
+        }
+        isVar = true;
+        return m;
+      }).join('');
     }
   } catch (e) {
-    GenerateErrorNode('text substitution failed', scope.path, e);
+    return GenerateErrorNode('text substitution failed', scope.path, e);
   }
 
   return textNode;
