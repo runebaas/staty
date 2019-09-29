@@ -2,20 +2,16 @@
 <html lang="en">
 <head>
   <title>Example page</title>
-  <link rel="stylesheet" href="./style.scss" />
 </head>
 <body>
-  <div id="header">
-    <component path="./components/header.staty" component-text="hello world"></component>
+  <div id="variables">
+    <component path="./components/variables.staty" some-text="hello" classes="big-text"></component>
   </div>
-  <div id="title">
-    <component path="./components/title.staty"></component>
+  <div id="parse">
+    <component path="./components/parse.staty"></component>
   </div>
-  <div id="card">
-    <component path="./components/card.staty" card-text="hello airplane"></component>
-  </div>
-  <div id="markdown">
-    <component path="./components/markdown.staty"></component>
+  <div id="inline-parse">
+    <component path="./components/parse-inline.staty"></component>
   </div>
 </body>
 </html>

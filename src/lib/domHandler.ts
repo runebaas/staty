@@ -32,22 +32,18 @@ export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeEl
 }
 
 function substituteAttributes(attributes: (Attribute[]|undefined), scope: Scope): Attribute[] {
-  if (attributes === undefined || attributes.length === 0 || attributes.find(a => !a.name.startsWith(':'))) { return attributes || []; }
-
-  const variables = {
-    ...scope.globalVariables,
-    ...scope.variables
-  };
+  if (attributes === undefined || attributes.length === 0) { return attributes || []; }
 
   return attributes.map(attr => {
     if (attr.name.startsWith(':')) {
       attr.name = attr.name.slice(1);
-      if (variables[attr.value]) {
-        attr.value = variables[attr.value];
-      } else {
-        console.info(scope.path, 'Unable to replace prop', attr);
-      }
+      attr.value = scope.variables[attr.value] || scope.globalVariables[attr.value] || attributeVariableNotFound(scope, attr);
     }
     return attr;
   });
+}
+
+function attributeVariableNotFound(scope: Scope, attr: Attribute): string {
+  console.info(scope.path, 'Unable to replace prop', attr);
+  return '';
 }

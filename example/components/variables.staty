@@ -1,0 +1,11 @@
+<component>
+  <definition>
+    <meta name="name" content="Variable Test">
+    <meta name="prop" content="some-text"/>
+    <meta name="prop" content="default-text" default="world"/>
+    <meta name="prop" content="classes"/>
+  </definition>
+  <slot>
+    <p :class="classes">{{ some-text }} {{ default-text }}</p>
+  </slot>
+</component>

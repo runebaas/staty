@@ -1,0 +1,11 @@
+<component>
+  <definition lang="yaml">
+    name: Card
+    props:
+      - name: file
+        default: './markdown.md'
+  </definition>
+  <slot>
+    <parse lang="md" :path="file"></parse>
+  </slot>
+</component>

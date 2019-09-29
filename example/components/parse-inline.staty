@@ -11,6 +11,8 @@
     }
   </definition>
   <slot>
-    <h1 class="title">{{ something-default }}</h1>
+    <parse lang="markdown">
+      # Hello world
+    </parse>
   </slot>
 </component>
