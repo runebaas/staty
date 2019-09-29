@@ -12,5 +12,5 @@ module.exports = {
     'json'
   ],
   collectCoverage: true,
-  coverageReporters: ['json', 'text', 'html']
+  coverageReporters: ['text']
 };
