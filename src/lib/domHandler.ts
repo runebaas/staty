@@ -25,7 +25,7 @@ export async function domManager(doc: TreeElement, scope: Scope): Promise<TreeEl
 
   newDoc.childNodes = results
     .map(res => [res])
-    .map(res => res[0].nodeName === 'rplc' ? res[0].childNodes : res)
+    .map(res => (res[0].nodeName === 'rplc' ? res[0].childNodes : res))
     // Would love to use .flat(),
     // but as long as node 10 lts is still a thing it's not happening
     .reduce((result, element) => {
