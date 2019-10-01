@@ -105,6 +105,55 @@ const stylisticRules = {
   'switch-colon-spacing': ['error', { after: false, before: true }],
   'wrap-regex': ['error']
 };
+const variableRules = {
+  'no-delete-var': ['error'],
+  'no-label-var': ['error'],
+  'no-shadow': ['error'],
+  'no-shadow-restricted-names': ['error'],
+  'no-undef': ['error'],
+  'no-undef-init': ['error'],
+  'no-unused-vars': ['error'],
+  'no-use-before-define': ['error', {
+    functions: false
+  }]
+};
+const es6Rules = {
+  'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: false }],
+  'arrow-parens': ['error', 'as-needed'],
+  'arrow-spacing': ['error', { before: true, after: true }],
+  'constructor-super': ['error'],
+  'generator-star-spacing': ['error', { before: false, after: true }],
+  'no-class-assign': ['error'],
+  'no-confusing-arrow': ['error'],
+  'no-const-assign': ['error'],
+  'no-dupe-class-members': ['error'],
+  'no-duplicate-imports': ['error'],
+  'no-new-symbol': ['error'],
+  'no-this-before-super': ['error'],
+  'no-useless-computed-key': ['error'],
+  'no-useless-constructor': ['error'],
+  'no-useless-rename': ['error'],
+  'no-var': ['error'],
+  'object-shorthand': ['error', 'consistent-as-needed'],
+  'prefer-arrow-callback': ['error'],
+  'prefer-const': ['error', {
+    destructuring: 'all',
+    ignoreReadBeforeAssign: true
+  }],
+  'prefer-destructuring': ['error', {
+    array: true,
+    object: true
+  }],
+  'prefer-numeric-literals': ['error'],
+  'prefer-rest-params': ['error'],
+  'prefer-spread': ['error'],
+  'prefer-template': ['error'],
+  'require-yield': ['error'],
+  'rest-spread-spacing': ['error', 'never'],
+  'symbol-description': ['error'],
+  'template-curly-spacing': ['error', 'never'],
+  'yield-star-spacing': ['error', 'after']
+};
 
 const importRules = {
   /*
@@ -152,7 +201,7 @@ const typescriptRules = {
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module'
   },
   plugins: [
@@ -170,6 +219,8 @@ module.exports = {
     'plugin:import/typescript'
   ],
   rules: {
+    ...es6Rules,
+    ...variableRules,
     ...stylisticRules,
 
     ...importRules,
