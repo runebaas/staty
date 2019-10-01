@@ -1,12 +1,12 @@
-import { TreeElement } from '../../models/treeElementModel';
-import { ComponentDefinition } from '../../models/componentModel';
-import yaml from 'js-yaml';
-import { RemoveTextOffset } from '../helpers';
-import { KeyValue } from '../../models/helperTypes';
+import {TreeElement} from '../../models/treeElementModel';
+import {ComponentDefinition} from '../../models/componentModel';
+import {loadDefinitionFromHtml} from './definitionParsers/htmlDefinitionParser';
+import {loadDefinitionFromJson} from './definitionParsers/jsonDefinitionParser';
+import {loadDefinitionFromYaml} from './definitionParsers/yamlDefinitionParser';
 
-export function LoadDefinition(dom: TreeElement, filePath: string): ComponentDefinition {
-  const definitionNode = dom.childNodes.find(s => s.tagName === 'definition');
-  const lang = definitionNode.attrs.find(l => l.name === 'lang') || { value: 'html' };
+export function loadDefinition(dom: TreeElement, filePath: string): ComponentDefinition {
+  const definitionNode = dom.childNodes.find(node => node.tagName === 'definition');
+  const lang = definitionNode.attrs.find(att => att.name === 'lang') || {value: 'html'};
   const defaultDefinition: ComponentDefinition = {
     name: 'anonymous',
     path: filePath,
@@ -15,65 +15,25 @@ export function LoadDefinition(dom: TreeElement, filePath: string): ComponentDef
   let definition: ComponentDefinition;
 
   switch (lang.value) {
-    case 'yaml':
+    case 'yaml' :
       definition = {
         ...defaultDefinition,
-        ...LoadDefinitionFromYaml(definitionNode)
+        ...loadDefinitionFromYaml(definitionNode)
       };
       break;
-    case 'json':
+    case 'json' :
       definition = {
         ...defaultDefinition,
-        ...LoadDefinitionFromJson(definitionNode)
+        ...loadDefinitionFromJson(definitionNode)
       };
       break;
-    default:
+    default :
       definition = {
         ...defaultDefinition,
-        ...LoadDefinitionFromHtml(definitionNode)
+        ...loadDefinitionFromHtml(definitionNode)
       };
       break;
   }
 
   return definition;
-}
-
-function LoadDefinitionFromYaml(dom: TreeElement): ComponentDefinition {
-  const content = RemoveTextOffset(dom.childNodes[0].value);
-  return yaml.safeLoad(content);
-}
-
-function LoadDefinitionFromHtml(dom: TreeElement): ComponentDefinition {
-  const definition: ComponentDefinition = {
-    props: []
-  };
-
-  dom.childNodes.forEach(({ tagName, attrs }) => {
-    if (tagName === 'meta') {
-      const attributes = attrs.reduce<KeyValue>((result, att) => {
-        result[att.name] = att.value;
-        return result;
-      }, {});
-
-      switch (attributes.name) {
-        case 'name':
-          definition.name = attributes.content;
-          break;
-        case 'prop':
-          definition.props.push({
-            name: attributes.content,
-            default: attributes.default
-          });
-          break;
-        default:
-          break;
-      }
-    }
-  });
-
-  return definition;
-}
-
-function LoadDefinitionFromJson(dom: TreeElement): ComponentDefinition {
-  return JSON.parse(dom.childNodes[0].value);
 }

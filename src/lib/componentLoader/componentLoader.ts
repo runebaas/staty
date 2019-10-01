@@ -1,20 +1,35 @@
 import * as parse5 from 'parse5';
-import { TreeElement } from '../../models/treeElementModel';
-import { Component, ComponentDefinition } from '../../models/componentModel';
-import { ReadFile } from '../helpers';
-import { LoadDefinition } from './definitionParser';
-import { GenerateErrorNode } from '../errorGenerators';
+import {TreeElement} from '../../models/treeElementModel';
+import {Component, ComponentDefinition} from '../../models/componentModel';
+import {readFile} from '../helpers';
+import {loadDefinition} from './definitionParser';
+import {generateErrorNode} from '../errorGenerators';
 
-export async function LoadComponent(filePath: string): Promise<Component> {
-  const entry = await ReadFile(filePath);
-  const dom = parse5.parseFragment(entry.toString(), { scriptingEnabled: false }) as TreeElement;
-  const componentNode = dom.childNodes.find(s => s.tagName === 'component');
+function loadSlotContent(dom: TreeElement): TreeElement {
+  const nodes = dom
+    .childNodes.find(node => node.tagName === 'slot')
+    .childNodes.filter(node => !(node.value && node.value.startsWith('\n')))
+    .map(({nodeName, tagName, attrs, childNodes}) => ({nodeName, tagName, attrs, childNodes}));
+
+  return {
+    nodeName: 'rplc',
+    tagName: 'rplc',
+    attrs: [],
+    childNodes: nodes
+  };
+}
+
+
+export async function loadComponent(filePath: string): Promise<Component> {
+  const entry = await readFile(filePath);
+  const dom = parse5.parseFragment(entry.toString(), {scriptingEnabled: false}) as TreeElement;
+  const componentNode = dom.childNodes.find(node => node.tagName === 'component');
 
   let content: TreeElement;
   try {
-    content = LoadSlotContent(componentNode);
-  } catch (e) {
-    content = GenerateErrorNode('Failed to decode slot content', filePath, e);
+    content = loadSlotContent(componentNode);
+  } catch (error) {
+    content = generateErrorNode('Failed to decode slot content', filePath, error);
   }
 
   let definition: ComponentDefinition = {
@@ -25,28 +40,15 @@ export async function LoadComponent(filePath: string): Promise<Component> {
   try {
     definition = {
       ...definition,
-      ...LoadDefinition(componentNode, filePath)
+      ...loadDefinition(componentNode, filePath)
     };
-  } catch (e) {
-    console.log('definition', filePath, e.message);
-    content = GenerateErrorNode('Failed to decode component definition', filePath, e);
+  } catch (error) {
+    console.log('definition', filePath, error.message);
+    content = generateErrorNode('Failed to decode component definition', filePath, error);
   }
 
   return {
     definition: definition,
     slot: content
-  };
-}
-
-function LoadSlotContent(dom: TreeElement): TreeElement {
-  const nodes = dom
-    .childNodes.find(s => s.tagName === 'slot')
-    .childNodes.filter(s => !(s.value && s.value.startsWith('\n')))
-    .map(({ nodeName, tagName, attrs, childNodes }) => ({ nodeName, tagName, attrs, childNodes }));
-  return {
-    nodeName: 'rplc',
-    tagName: 'rplc',
-    attrs: [],
-    childNodes: nodes
   };
 }

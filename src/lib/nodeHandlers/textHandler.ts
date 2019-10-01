@@ -1,6 +1,6 @@
-import { TreeElement } from '../../models/treeElementModel';
-import { Scope } from '../../models/scopeModel';
-import { GenerateErrorNode } from '../errorGenerators';
+import {TreeElement} from '../../models/treeElementModel';
+import {Scope} from '../../models/scopeModel';
+import {generateErrorNode} from '../errorGenerators';
 
 export function HandleText(doc: TreeElement, scope: Scope): TreeElement {
   const textNode = doc;
@@ -14,21 +14,23 @@ export function HandleText(doc: TreeElement, scope: Scope): TreeElement {
       };
 
       let isVar = false;
-      textNode.value = strings.map(m => {
+      textNode.value = strings.map(section => {
         if (isVar) {
           isVar = false;
-          const key = m.trim();
+          const key = section.trim();
           if (Object.keys(variables).includes(key)) {
             return variables[key];
           }
-          return m;
+
+          return section;
         }
         isVar = true;
-        return m;
+
+        return section;
       }).join('');
     }
-  } catch (e) {
-    return GenerateErrorNode('text substitution failed', scope.path, e);
+  } catch (error) {
+    return generateErrorNode('text substitution failed', scope.path, error);
   }
 
   return textNode;

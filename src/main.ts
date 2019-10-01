@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { compile } from './compiler';
+import {compile} from './compiler';
 
 const file = process.argv.find(arg => arg.endsWith('.staty'));
 

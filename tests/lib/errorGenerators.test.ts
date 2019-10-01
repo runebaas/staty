@@ -1,8 +1,8 @@
-import { GenerateErrorNode } from '../../src/lib/errorGenerators';
+import {generateErrorNode} from '../../src/lib/errorGenerators';
 
 describe('GenerateErrorNode', () => {
   test('Generate Error Node', () => {
-    const error = GenerateErrorNode('Test', '/some/path', new Error('Not an error'));
+    const error = generateErrorNode('Test', '/some/path', new Error('Not an error'));
     expect(error).toEqual({
       nodeName: 'div',
       tagName: 'error',

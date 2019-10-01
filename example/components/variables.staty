@@ -7,5 +7,6 @@
   </definition>
   <slot>
     <h1 :class="classes">{{ some-text }} {{ default-text }}</h1>
+    <p @stuff="'%classes' + '%some-text'">abx</p>
   </slot>
 </component>

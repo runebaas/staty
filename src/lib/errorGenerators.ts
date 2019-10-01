@@ -1,6 +1,6 @@
-import { TreeElement } from '../models/treeElementModel';
+import {TreeElement} from '../models/treeElementModel';
 
-export function GenerateErrorNode(message: string, filePath: string, error: Error): TreeElement {
+export function generateErrorNode(message: string, filePath: string, error: Error): TreeElement {
   const errorMessage = `--- ERROR | ${message} | ${filePath} | ${error.message} ---`;
 
   return {
