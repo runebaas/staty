@@ -5,6 +5,7 @@ import { TreeElement } from '../../models/treeElementModel';
 import { ReadFile, RemoveTextOffset } from '../helpers';
 import { Scope } from '../../models/scopeModel';
 import { GenerateErrorNode } from '../errorGenerators';
+import highlight from 'highlight.js';
 
 export async function HandleParseNode(doc: TreeElement, scope: Scope): Promise<TreeElement> {
   const lang = doc.attrs.find(l => l.name === 'lang') || { value: 'text' };
@@ -25,7 +26,9 @@ export async function HandleParseNode(doc: TreeElement, scope: Scope): Promise<T
     switch (lang.value) {
       case 'md':
       case 'markdown':
-        parseResult = marked.parse(content);
+        parseResult = marked.parse(content, {
+          highlight: (code: string, language: string): string => highlight.highlight(language, code).value
+        });
         break;
       default:
         break;
