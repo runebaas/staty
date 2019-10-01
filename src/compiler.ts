@@ -1,16 +1,16 @@
-import { ReadFile } from './lib/helpers';
+import {readFile} from './lib/helpers';
 import * as path from 'path';
 import * as parse5 from 'parse5';
-import { domManager } from './lib/domHandler';
-import { TreeElement } from './models/treeElementModel';
-import { html_beautify } from 'js-beautify';
-import { KeyValue } from './models/helperTypes';
+import {domManager} from './lib/domHandler';
+import {TreeElement} from './models/treeElementModel';
+import {html_beautify as htmlBeautify} from 'js-beautify';
+import {KeyValue} from './models/helperTypes';
 
 export async function compile(rootPath: string, userOptions?: CompilerOptions): Promise<string> {
   const options = checkOptions(userOptions);
 
   const resolvedPath = path.resolve(rootPath);
-  const root = await ReadFile(resolvedPath);
+  const root = await readFile(resolvedPath);
 
   const dom = parse5.parse(root.toString()) as TreeElement;
 
@@ -22,11 +22,14 @@ export async function compile(rootPath: string, userOptions?: CompilerOptions): 
   });
 
   const html = parse5.serialize(result);
-  return html_beautify(html, {
+
+  return htmlBeautify(html, {
+    /* eslint-disable camelcase */
     end_with_newline: options.outputFormatting.endWithNewLine,
     indent_body_inner_html: options.outputFormatting.indentBodyInnerHtml,
     indent_size: options.outputFormatting.indentSize,
     preserve_newlines: options.outputFormatting.preserveNewlines
+    /* eslint-enable camelcase */
   });
 }
 

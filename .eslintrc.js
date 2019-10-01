@@ -44,7 +44,7 @@ const stylisticRules = {
   'lines-between-class-members': ['error', 'always'],
   'max-depth': ['error', { max: 4 }],
   'max-len': ['error', {
-    code: 140,
+    code: 150,
     ignoreTrailingComments: true,
     ignoreUrls: true,
     ignoreStrings: true,
@@ -73,7 +73,6 @@ const stylisticRules = {
   'no-multiple-empty-lines': ['error', {
     max: 2
   }],
-  'no-negated-condition': ['error'],
   'no-nested-ternary': ['error'],
   'no-new-object': ['error'],
   'no-trailing-spaces': ['error'],
@@ -82,10 +81,7 @@ const stylisticRules = {
   }],
   'no-unneeded-ternary': ['error'],
   'no-whitespace-before-property': ['error'],
-  'object-curly-newline': ['error', {
-    multiline: true,
-    minProperties: 2
-  }],
+  'object-curly-newline': ['error', { consistent: true }],
   'object-curly-spacing': ['error', 'never'],
   'one-var': ['error', 'never'],
   'padded-blocks': ['error', 'never'],
