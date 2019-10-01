@@ -9,7 +9,7 @@ default:
       - node_modules/
 
 test:
-  image: node
+  image: node:carbon
   stage: Test
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   script:

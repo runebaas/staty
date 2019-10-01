@@ -3,7 +3,7 @@
     /* Basics */
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2017",
+    "target": "es2015",
     "lib": ["esnext"],
 
     /* Build Config */
