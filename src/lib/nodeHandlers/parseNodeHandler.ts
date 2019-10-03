@@ -21,7 +21,7 @@ export async function HandleParseNode(doc: TreeElement, scope: Scope): Promise<T
       content = removeTextOffset(doc.childNodes[0].value);
     }
 
-    let parseResult: string = '';
+    let parseResult = '';
 
     switch (lang.value) {
       case 'md' :

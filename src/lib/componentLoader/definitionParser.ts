@@ -1,8 +1,8 @@
 import {TreeElement} from '../../models/treeElementModel';
 import {ComponentDefinition} from '../../models/componentModel';
-import yaml from 'js-yaml';
-import {removeTextOffset} from '../helpers';
-import {KeyValue} from '../../models/helperTypes';
+import {loadDefinitionFromHtml} from './definitionParsers/htmlDefinitionParser';
+import {loadDefinitionFromJson} from './definitionParsers/jsonDefinitionParser';
+import {loadDefinitionFromYaml} from './definitionParsers/yamlDefinitionParser';
 
 export function loadDefinition(dom: TreeElement, filePath: string): ComponentDefinition {
   const definitionNode = dom.childNodes.find(node => node.tagName === 'definition');
@@ -36,46 +36,4 @@ export function loadDefinition(dom: TreeElement, filePath: string): ComponentDef
   }
 
   return definition;
-}
-
-function loadDefinitionFromYaml(dom: TreeElement): ComponentDefinition {
-  const content = removeTextOffset(dom.childNodes[0].value);
-
-  return yaml.safeLoad(content);
-}
-
-function loadDefinitionFromHtml(dom: TreeElement): ComponentDefinition {
-  const definition: ComponentDefinition = {
-    props: []
-  };
-
-  dom.childNodes.forEach(({tagName, attrs}) => {
-    if (tagName === 'meta') {
-      const attributes = attrs.reduce<KeyValue>((result, att) => {
-        result[att.name] = att.value;
-
-        return result;
-      }, {});
-
-      switch (attributes.name) {
-        case 'name' :
-          definition.name = attributes.content;
-          break;
-        case 'prop' :
-          definition.props.push({
-            'name': attributes.content,
-            'default': attributes.default
-          });
-          break;
-        default :
-          break;
-      }
-    }
-  });
-
-  return definition;
-}
-
-function loadDefinitionFromJson(dom: TreeElement): ComponentDefinition {
-  return JSON.parse(dom.childNodes[0].value);
 }

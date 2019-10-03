@@ -105,6 +105,7 @@ const stylisticRules = {
   'switch-colon-spacing': ['error', { after: false, before: true }],
   'wrap-regex': ['error']
 };
+
 const variableRules = {
   'no-delete-var': ['error'],
   'no-label-var': ['error'],
@@ -117,6 +118,7 @@ const variableRules = {
     functions: false
   }]
 };
+
 const es6Rules = {
   'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: false }],
   'arrow-parens': ['error', 'as-needed'],
@@ -155,11 +157,79 @@ const es6Rules = {
   'yield-star-spacing': ['error', 'after']
 };
 
+const bestPracticeRules = {
+  'array-callback-return': ['error'],
+  'consistent-return': ['error'],
+  'curly': ['error'],
+  'default-case': ['error'],
+  'default-param-last': ['error'],
+  'dot-notation': ['error'],
+  'eqeqeq': ['error', 'always'],
+  'max-classes-per-file': ['error', 1],
+  'no-alert': ['warn'],
+  'no-caller': ['error'],
+  'no-case-declarations': ['error'],
+  'no-div-regex': ['error'],
+  'no-else-return': ['error'],
+  'no-empty-pattern': ['error'],
+  'no-eval': ['warn'],
+  'no-extend-native': ['error'],
+  'no-extra-bind': ['error'],
+  'no-fallthrough': ['error'],
+  'no-global-assign': ['error'],
+  'no-implicit-coercion': ['error'],
+  'no-implicit-globals': ['error'],
+  'no-implied-eval': ['error'],
+  'no-invalid-this': ['error'],
+  'no-labels': ['error'],
+  'no-lone-blocks': ['error'],
+  'no-loop-func': ['error'],
+  'no-magic-numbers': ['error', {
+    ignoreArrayIndexes: true,
+    ignore: [-1, 0, 1, 2]
+  }],
+  'no-multi-spaces': ['error', { ignoreEOLComments: true }],
+  'no-new-func': ['error'],
+  'no-new-wrappers': ['error'],
+  'no-octal': ['error'],
+  'no-octal-escape': ['error'],
+  'no-param-reassign': ['error'],
+  'no-proto': ['error'],
+  'no-redeclare': ['error'],
+  'no-return-assign': ['error', 'always'],
+  'no-return-await': ['error'],
+  'no-script-url': ['error'],
+  'no-self-assign': ['error'],
+  'no-self-compare': ['error'],
+  'no-throw-literal': ['error'],
+  'no-unmodified-loop-condition': ['error'],
+  'no-unused-expressions': ['error'],
+  'no-useless-call': ['error'],
+  'no-useless-catch': ['warn'],
+  'no-useless-concat': ['error'],
+  'no-useless-escape': ['error'],
+  'no-void': ['error'],
+  'no-with': ['error'],
+  'prefer-promise-reject-errors': ['error'],
+  'prefer-regex-literals': ['warn'],
+  'radix': ['error', 'as-needed'],
+  'require-await': ['error'],
+  'require-unicode-regexp': ['warn'],
+  'yoda': ['error', 'never'],
+};
+
+const commonjsRules = {
+  'handle-callback-err': ['error', 'error'],
+  'no-buffer-constructor': ['error'],
+  'no-path-concat': ['error'],
+  'no-sync': ['error']
+};
+
 const importRules = {
   /*
-     * eslint-plugin-import
-     * https://github.com/benmosher/eslint-plugin-import
-     */
+   * eslint-plugin-import
+   * https://github.com/benmosher/eslint-plugin-import
+   */
   'import/no-default-export': ['error'],
   'import/first': ['error'],
   'import/no-duplicates': ['error'],
@@ -167,27 +237,36 @@ const importRules = {
   'import/no-self-import': ['error'],
   'import/no-useless-path-segments': ['error'],
 };
+
 const unicornRules = {
   /*
    * eslint-plugin-unicorn
    * https://github.com/sindresorhus/eslint-plugin-unicorn
    */
-  'unicorn/filename-case': [
-    'error',
-    {
-      case: 'camelCase'
-    }
-  ],
+  'unicorn/catch-error-name': ['error'],
+  'unicorn/error-message': ['error'],
+  'unicorn/explicit-length-check': ['error'],
+  'unicorn/filename-case': ['error', { case: 'camelCase' }],
+  'unicorn/no-abusive-eslint-disable': ['error'],
   'unicorn/no-array-instanceof': ['error'],
   'unicorn/no-for-loop': ['error'],
-  'unicorn/no-unsafe-regex': ['error'],
-  'unicorn/no-zero-fractions': ['error'],
-  'unicorn/prefer-exponentiation-operator': ['error'],
+  'unicorn/no-unreadable-array-destructuring': ['warn'],
+  'unicorn/no-unsafe-regex': ['warn'],
+  'unicorn/no-unused-properties': ['warn'],
+  'unicorn/number-literal-case': ['error'],
+  'unicorn/prefer-add-event-listener': ['error'],
+  'unicorn/prefer-dataset': ['error'],
+  'unicorn/prefer-event-key': ['error'],
+  'unicorn/prefer-flat-map': ['error'],
   'unicorn/prefer-includes': ['error'],
+  'unicorn/prefer-node-append': ['error'],
+  'unicorn/prefer-node-remove': ['error'],
+  'unicorn/prefer-query-selector': ['error'],
+  'unicorn/prefer-spread': ['error'],
   'unicorn/prefer-starts-ends-with': ['error'],
-  'unicorn/regex-shorthand': ['warn'],
-  'unicorn/throw-new-error': ['error'],
+  'unicorn/prefer-text-content': ['error']
 };
+
 const typescriptRules = {
   /*
    * Typescript
@@ -215,13 +294,17 @@ module.exports = {
     node: true
   },
   extends: [
-    'eslint:recommended',
-    'plugin:import/typescript'
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:@typescript-eslint/recommended'
   ],
   rules: {
+    ...bestPracticeRules,
     ...es6Rules,
     ...variableRules,
     ...stylisticRules,
+    ...commonjsRules,
 
     ...importRules,
     ...unicornRules,

@@ -5,6 +5,21 @@ import {readFile} from '../helpers';
 import {loadDefinition} from './definitionParser';
 import {generateErrorNode} from '../errorGenerators';
 
+function loadSlotContent(dom: TreeElement): TreeElement {
+  const nodes = dom
+    .childNodes.find(node => node.tagName === 'slot')
+    .childNodes.filter(node => !(node.value && node.value.startsWith('\n')))
+    .map(({nodeName, tagName, attrs, childNodes}) => ({nodeName, tagName, attrs, childNodes}));
+
+  return {
+    nodeName: 'rplc',
+    tagName: 'rplc',
+    attrs: [],
+    childNodes: nodes
+  };
+}
+
+
 export async function loadComponent(filePath: string): Promise<Component> {
   const entry = await readFile(filePath);
   const dom = parse5.parseFragment(entry.toString(), {scriptingEnabled: false}) as TreeElement;
@@ -35,19 +50,5 @@ export async function loadComponent(filePath: string): Promise<Component> {
   return {
     definition: definition,
     slot: content
-  };
-}
-
-function loadSlotContent(dom: TreeElement): TreeElement {
-  const nodes = dom
-    .childNodes.find(node => node.tagName === 'slot')
-    .childNodes.filter(node => !(node.value && node.value.startsWith('\n')))
-    .map(({nodeName, tagName, attrs, childNodes}) => ({nodeName, tagName, attrs, childNodes}));
-
-  return {
-    nodeName: 'rplc',
-    tagName: 'rplc',
-    attrs: [],
-    childNodes: nodes
   };
 }
