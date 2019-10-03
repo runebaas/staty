@@ -1,5 +1,3 @@
-// #!/usr/bin/env node
-
 import { Compiler, } from './compiler';
 import { PluginManager, } from './modules/pluginManager';
 import { CompilerOptions, } from './compilerOptions';
@@ -37,13 +35,5 @@ class Staty {
 export interface StatyOptions {
   compiler?: CompilerOptions;
 }
-
-// Const file = process.argv.find(arg => arg.endsWith('.staty'));
-//
-// const compiler = new Staty({});
-//
-// compiler.compile(file ? file : './index.staty')
-//   .then(console.log)
-//   .catch(console.error);
 
 export default Staty; // eslint-disable-line import/no-default-export
