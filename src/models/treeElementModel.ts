@@ -1,4 +1,4 @@
-import {Attribute, ElementLocation} from 'parse5';
+import { Attribute, ElementLocation, } from 'parse5';
 
 export interface TreeElement {
   nodeName: string;

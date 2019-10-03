@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import {promisify} from 'util';
+import { promisify, } from 'util';
 
 export const readFile = promisify(fs.readFile);
 
@@ -12,7 +12,7 @@ export const removeTextOffset = (value: string): string => {
     .map(line => {
       if (contentStartsAt === -1) {
         if (line.length === 0) { return line; }
-        contentStartsAt = line.match(/^(\s+)/gm)[0].length;
+        contentStartsAt = line.match(/^(\s+)/gu)[0].length;
       }
 
       return line.slice(contentStartsAt);

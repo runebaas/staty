@@ -1,11 +1,49 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 
-import {compile} from './compiler';
+import { Compiler, } from './compiler';
+import { PluginManager, } from './modules/pluginManager';
+import { CompilerOptions, } from './compilerOptions';
+import { ModuleManager, } from './modules/moduleManager';
+import { ErrorManager, } from './modules/errorManager';
 
-const file = process.argv.find(arg => arg.endsWith('.staty'));
+class Staty {
+  private readonly options: StatyOptions;
+  private moduleManager: ModuleManager;
 
-compile(file ? file : './index.staty')
-  .then(console.log)
-  .catch(console.error);
+  constructor(options: StatyOptions) {
+    this.options = options;
+    this.initModules();
+  }
 
-export default compile; // eslint-disable-line import/no-default-export
+  private initModules(): void {
+    const pluginManager = new PluginManager();
+    pluginManager.addDefaultPlugins();
+
+    const errorManager = new ErrorManager();
+
+    this.moduleManager = new ModuleManager({
+      pluginManager,
+      errorManager,
+    });
+  }
+
+  public compile(filePath: string): Promise<string> {
+    const compiler = new Compiler(this.options.compiler, this.moduleManager);
+
+    return compiler.compile(filePath);
+  }
+}
+
+export interface StatyOptions {
+  compiler?: CompilerOptions;
+}
+
+// Const file = process.argv.find(arg => arg.endsWith('.staty'));
+//
+// const compiler = new Staty({});
+//
+// compiler.compile(file ? file : './index.staty')
+//   .then(console.log)
+//   .catch(console.error);
+
+export default Staty; // eslint-disable-line import/no-default-export

@@ -1,12 +1,12 @@
 const stylisticRules = {
-  'array-bracket-newline': ['error', 'never'],
-  'array-bracket-spacing': ['error', 'never'],
+  'array-bracket-newline': ['error', 'consistent'],
+  'array-bracket-spacing': ['error', 'always'],
   'array-element-newline': ['error', 'consistent'],
   'block-spacing': ['error', 'always'],
   'brace-style': ['error', '1tbs', { allowSingleLine: true }],
   'camelcase': ['error', { 'properties': 'always' }],
   'capitalized-comments': ['error', 'always', { ignoreConsecutiveComments: true }],
-  'comma-dangle': ['error', 'only-multiline', { functions: 'never' }],
+  'comma-dangle': ['error', 'always', { functions: 'never' }],
   'comma-spacing': ['error', { before: false, after: true }],
   'comma-style': ['error', 'last'],
   'computed-property-spacing': ['error', 'never'],
@@ -41,7 +41,7 @@ const stylisticRules = {
     after: true
   }],
   'linebreak-style': ['error', 'unix'],
-  'lines-between-class-members': ['error', 'always'],
+  'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
   'max-depth': ['error', { max: 4 }],
   'max-len': ['error', {
     code: 150,
@@ -82,7 +82,7 @@ const stylisticRules = {
   'no-unneeded-ternary': ['error'],
   'no-whitespace-before-property': ['error'],
   'object-curly-newline': ['error', { consistent: true }],
-  'object-curly-spacing': ['error', 'never'],
+  'object-curly-spacing': ['error', 'always'],
   'one-var': ['error', 'never'],
   'padded-blocks': ['error', 'never'],
   'padding-line-between-statements': ['error', { blankLine: "always", prev: "*", next: "return" }],

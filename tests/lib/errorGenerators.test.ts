@@ -1,4 +1,4 @@
-import {generateErrorNode} from '../../src/lib/errorGenerators';
+import { generateErrorNode, } from '../../src/lib/errorGenerators';
 
 describe('GenerateErrorNode', () => {
   test('Generate Error Node', () => {
@@ -10,9 +10,9 @@ describe('GenerateErrorNode', () => {
       childNodes: [
         {
           nodeName: '#text',
-          value: '--- ERROR | Test | /some/path | Not an error ---'
-        }
-      ]
+          value: '--- ERROR | Test | /some/path | Not an error ---',
+        },
+      ],
     });
   });
 });

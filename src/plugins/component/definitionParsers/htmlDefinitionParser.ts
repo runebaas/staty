@@ -1,13 +1,13 @@
-import {TreeElement} from '../../../models/treeElementModel';
-import {ComponentDefinition} from '../../../models/componentModel';
-import {KeyValue} from '../../../models/helperTypes';
+import { TreeElement, } from '../../../models/treeElementModel';
+import { ComponentDefinition, } from '../../../models/componentModel';
+import { KeyValue, } from '../../../models/helperTypes';
 
 export function loadDefinitionFromHtml(dom: TreeElement): ComponentDefinition {
   const definition: ComponentDefinition = {
-    props: []
+    props: [],
   };
 
-  dom.childNodes.forEach(({tagName, attrs}) => {
+  dom.childNodes.forEach(({ tagName, attrs, }) => {
     if (tagName === 'meta') {
       const attributes = attrs.reduce<KeyValue>((result, att) => {
         result[att.name] = att.value;
@@ -22,7 +22,7 @@ export function loadDefinitionFromHtml(dom: TreeElement): ComponentDefinition {
         case 'prop' :
           definition.props.push({
             'name': attributes.content,
-            'default': attributes.default
+            'default': attributes.default,
           });
           break;
         default :

@@ -1,5 +1,6 @@
-import {Attribute} from 'parse5';
-import {Scope} from '../models/scopeModel';
+import { Attribute, } from 'parse5';
+import { Scope, } from '../models/scopeModel';
+import { AttributePlugin, PluginInfo, } from '../models/pluginsModel';
 
 function attributeVariableNotFound(scope: Scope, attr: Attribute): string {
   console.info(scope.path, 'Unable to replace prop', attr);
@@ -7,7 +8,7 @@ function attributeVariableNotFound(scope: Scope, attr: Attribute): string {
   return '';
 }
 
-export function substituteAttributes(attributes: (Attribute[]|undefined), scope: Scope): Attribute[] {
+function substituteAttributes(attributes: (Attribute[]|undefined), scope: Scope): Attribute[] {
   if (attributes === undefined || attributes.length === 0) { return attributes || []; }
 
   return attributes.map(attr => {
@@ -19,3 +20,8 @@ export function substituteAttributes(attributes: (Attribute[]|undefined), scope:
     return attr;
   });
 }
+
+export const attributeInterpolerationPlugin: PluginInfo<AttributePlugin> = {
+  name: 'AttributeInterpoleration',
+  func: substituteAttributes,
+};

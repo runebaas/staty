@@ -1,28 +1,28 @@
 import * as parse5 from 'parse5';
-import {TreeElement} from '../../models/treeElementModel';
-import {Component, ComponentDefinition} from '../../models/componentModel';
-import {readFile} from '../helpers';
-import {loadDefinition} from './definitionParser';
-import {generateErrorNode} from '../errorGenerators';
+import { TreeElement, } from '../../models/treeElementModel';
+import { Component, ComponentDefinition, } from '../../models/componentModel';
+import { readFile, } from '../../lib/helpers';
+import { loadDefinition, } from './definitionParser';
+import { generateErrorNode, } from '../../lib/errorGenerators';
 
 function loadSlotContent(dom: TreeElement): TreeElement {
   const nodes = dom
     .childNodes.find(node => node.tagName === 'slot')
     .childNodes.filter(node => !(node.value && node.value.startsWith('\n')))
-    .map(({nodeName, tagName, attrs, childNodes}) => ({nodeName, tagName, attrs, childNodes}));
+    .map(({ nodeName, tagName, attrs, childNodes, }) => ({ nodeName, tagName, attrs, childNodes, }));
 
   return {
     nodeName: 'rplc',
     tagName: 'rplc',
     attrs: [],
-    childNodes: nodes
+    childNodes: nodes,
   };
 }
 
 
 export async function loadComponent(filePath: string): Promise<Component> {
   const entry = await readFile(filePath);
-  const dom = parse5.parseFragment(entry.toString(), {scriptingEnabled: false}) as TreeElement;
+  const dom = parse5.parseFragment(entry.toString(), { scriptingEnabled: false, }) as TreeElement;
   const componentNode = dom.childNodes.find(node => node.tagName === 'component');
 
   let content: TreeElement;
@@ -35,12 +35,12 @@ export async function loadComponent(filePath: string): Promise<Component> {
   let definition: ComponentDefinition = {
     name: 'anonymous',
     path: filePath,
-    props: []
+    props: [],
   };
   try {
     definition = {
       ...definition,
-      ...loadDefinition(componentNode, filePath)
+      ...loadDefinition(componentNode, filePath),
     };
   } catch (error) {
     console.log('definition', filePath, error.message);
@@ -49,6 +49,6 @@ export async function loadComponent(filePath: string): Promise<Component> {
 
   return {
     definition: definition,
-    slot: content
+    slot: content,
   };
 }

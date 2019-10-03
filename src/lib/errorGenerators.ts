@@ -1,4 +1,4 @@
-import {TreeElement} from '../models/treeElementModel';
+import { TreeElement, } from '../models/treeElementModel';
 
 export function generateErrorNode(message: string, filePath: string, error: Error): TreeElement {
   const errorMessage = `--- ERROR | ${message} | ${filePath} | ${error.message} ---`;
@@ -7,9 +7,9 @@ export function generateErrorNode(message: string, filePath: string, error: Erro
     nodeName: 'div',
     tagName: 'error',
     attrs: [],
-    childNodes: [{
+    childNodes: [ {
       nodeName: '#text',
-      value: errorMessage
-    }]
+      value: errorMessage,
+    }, ],
   };
 }

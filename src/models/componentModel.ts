@@ -1,4 +1,4 @@
-import {TreeElement} from './treeElementModel';
+import { TreeElement, } from './treeElementModel';
 
 export interface Component {
   definition: ComponentDefinition;

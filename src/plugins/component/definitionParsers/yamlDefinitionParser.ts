@@ -1,6 +1,6 @@
-import {TreeElement} from '../../../models/treeElementModel';
-import {ComponentDefinition} from '../../../models/componentModel';
-import {removeTextOffset} from '../../helpers';
+import { TreeElement, } from '../../../models/treeElementModel';
+import { ComponentDefinition, } from '../../../models/componentModel';
+import { removeTextOffset, } from '../../../lib/helpers';
 import yaml from 'js-yaml';
 
 export function loadDefinitionFromYaml(dom: TreeElement): ComponentDefinition {

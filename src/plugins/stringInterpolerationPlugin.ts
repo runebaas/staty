@@ -1,16 +1,17 @@
-import {TreeElement} from '../../models/treeElementModel';
-import {Scope} from '../../models/scopeModel';
-import {generateErrorNode} from '../errorGenerators';
+import { PluginInfo, TagPlugin, } from '../models/pluginsModel';
+import { TreeElement, } from '../models/treeElementModel';
+import { Scope, } from '../models/scopeModel';
+import { generateErrorNode, } from '../lib/errorGenerators';
 
-export function HandleText(doc: TreeElement, scope: Scope): TreeElement {
+export function handleString(doc: TreeElement, scope: Scope): TreeElement {
   const textNode = doc;
   try {
-    const strings = textNode.value.split(/{{(.+?)}}/g);
+    const strings = textNode.value.split(/\{\{(.+?)\}\}/gu);
 
     if (strings.length > 1) {
       const variables = {
         ...scope.globalVariables,
-        ...scope.variables
+        ...scope.variables,
       };
 
       let isVar = false;
@@ -35,3 +36,8 @@ export function HandleText(doc: TreeElement, scope: Scope): TreeElement {
 
   return textNode;
 }
+
+export const stringInterpolerationPlugin: PluginInfo<TagPlugin> = {
+  name: 'StringInterpoleration',
+  func: handleString,
+};
