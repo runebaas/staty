@@ -10,6 +10,11 @@ import { PluginInfo, TagPlugin, } from '../models/pluginsModel';
 
 async function handleMarkdown(doc: TreeElement, scope: Scope): Promise<TreeElement> {
   const lang = doc.attrs.find(att => att.name === 'lang') || { value: 'text', };
+
+  if (lang.value !== 'md' && lang.value !== 'markdown') {
+    return doc;
+  }
+
   const filePath = doc.attrs.find(att => att.name === 'path') || { value: '', };
 
   let content: string;
@@ -22,22 +27,13 @@ async function handleMarkdown(doc: TreeElement, scope: Scope): Promise<TreeEleme
       content = removeTextOffset(doc.childNodes[0].value);
     }
 
-    let parseResult = '';
-
-    switch (lang.value) {
-      case 'md' :
-      case 'markdown' :
-        parseResult = marked.parse(content, { highlight: (code: string, language: string): string => highlight.highlight(language, code).value, });
-        break;
-      default :
-        break;
-    }
+    const parseResult = marked.parse(content, { highlight: (code: string, language: string): string => highlight.highlight(language, code).value, });
 
     const fragment = parse5.parseFragment(`<rplc>${parseResult}</rplc>`) as TreeElement;
 
     return fragment.childNodes[0];
   } catch (error) {
-    return generateErrorNode('Failed to parse content', scope.path, error);
+    return generateErrorNode('Failed to parse markdown', scope.path, error);
   }
 }
 
