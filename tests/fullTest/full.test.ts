@@ -1,4 +1,4 @@
-import Staty from '../../src/main';
+import Staty from '../../src/index';
 import { readFile, } from '../../src/lib/helpers';
 import * as path from 'path';
 

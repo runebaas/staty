@@ -4,7 +4,7 @@ import { CompilerOptions, } from './compilerOptions';
 import { ModuleManager, } from './modules/moduleManager';
 import { ErrorManager, } from './modules/errorManager';
 
-class Staty {
+export class Staty {
   private readonly options: StatyOptions;
   private moduleManager: ModuleManager;
 
@@ -35,5 +35,3 @@ class Staty {
 export interface StatyOptions {
   compiler?: CompilerOptions;
 }
-
-export default Staty; // eslint-disable-line import/no-default-export
