@@ -1,7 +1,6 @@
 import { TreeElement, } from '../models/treeElementModel';
 import { Scope, } from '../models/scopeModel';
 import { PluginManager, } from './pluginManager';
-import { Attribute as DomAttribute, } from 'parse5';
 
 export class ElementManager {
   private readonly doc: TreeElement;
@@ -15,22 +14,31 @@ export class ElementManager {
   }
 
   public async handleElement(): Promise<TreeElement> {
-    const newDoc = this.doc;
+    let newDoc: TreeElement = this.doc;
 
     const { attributePlugins, tagPlugins, } = this.pluginManager;
-    newDoc.attrs = attributePlugins.reduce<DomAttribute[]>((attrs, plugin) => {
+    for (const plugin of attributePlugins) {
       try {
-        return plugin.func(attrs, this.scope);
+        newDoc.attrs = await plugin.func(newDoc.attrs, this.scope);
       } catch (error) {
         error.message = `${plugin.name}: ${error.message}`;
         throw error;
       }
-    }, newDoc.attrs);
+    }
 
     const parseFunctions = tagPlugins[newDoc.nodeName];
 
     if (parseFunctions !== undefined) {
-      return parseFunctions[0].func(newDoc, this.scope);
+      for (const plugin of parseFunctions) {
+        try {
+          newDoc = await plugin.func(newDoc, this.scope);
+        } catch (error) {
+          error.message = `${plugin.name}: ${error.message}`;
+          throw error;
+        }
+      }
+
+      return newDoc;
     }
 
     if (newDoc.childNodes === undefined) {

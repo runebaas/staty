@@ -14,4 +14,4 @@ export interface PluginInfo<T> {
 }
 
 export type TagPlugin = (doc: TreeElement, scope: Scope) => (TreeElement|Promise<TreeElement>)
-export type AttributePlugin = (attributes: DomAttribute[], scope: Scope) => (DomAttribute[])
+export type AttributePlugin = (attributes: DomAttribute[], scope: Scope) => (DomAttribute[]|Promise<DomAttribute[]>)
