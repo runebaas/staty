@@ -7,6 +7,7 @@ import { Scope, } from '../models/scopeModel';
 import { generateErrorNode, } from '../lib/errorGenerators';
 import highlight from 'highlight.js';
 import { PluginInfo, TagPlugin, } from '../models/pluginsModel';
+import { ErrorLevel, MessageManager, } from '../modules/messageManager';
 
 async function handleMarkdown(doc: TreeElement, scope: Scope): Promise<TreeElement> {
   const lang = doc.attrs.find(att => att.name === 'lang') || { value: 'text', };
@@ -33,6 +34,14 @@ async function handleMarkdown(doc: TreeElement, scope: Scope): Promise<TreeEleme
 
     return fragment.childNodes[0];
   } catch (error) {
+    const messageHandler = scope.moduleManager.tryGetModule<MessageManager>('messageManager');
+    messageHandler.addMessage({
+      level: ErrorLevel.Error,
+      message: 'Failed to parse markdown',
+      source: scope.path,
+      error: error,
+    });
+
     return generateErrorNode('Failed to parse markdown', scope.path, error);
   }
 }

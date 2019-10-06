@@ -17,11 +17,11 @@ export class Staty {
     const pluginManager = new PluginManager();
     pluginManager.addDefaultPlugins();
 
-    const errorManager = new MessageManager();
+    const messageManager = new MessageManager();
 
     this.moduleManager = new ModuleManager({
       pluginManager,
-      errorManager,
+      messageManager,
     });
   }
 

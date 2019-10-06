@@ -2,6 +2,7 @@ import { PluginInfo, TagPlugin, } from '../models/pluginsModel';
 import { TreeElement, } from '../models/treeElementModel';
 import { Scope, } from '../models/scopeModel';
 import { generateErrorNode, } from '../lib/errorGenerators';
+import { ErrorLevel, MessageManager, } from '../modules/messageManager';
 
 export function handleString(doc: TreeElement, scope: Scope): TreeElement {
   const textNode = doc;
@@ -31,6 +32,14 @@ export function handleString(doc: TreeElement, scope: Scope): TreeElement {
       }).join('');
     }
   } catch (error) {
+    const messageHandler = scope.moduleManager.tryGetModule<MessageManager>('messageManager');
+    messageHandler.addMessage({
+      level: ErrorLevel.Error,
+      message: 'text substitution failed',
+      source: scope.path,
+      error: error.stack,
+    });
+
     return generateErrorNode('text substitution failed', scope.path, error);
   }
 
