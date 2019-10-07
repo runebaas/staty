@@ -1,6 +1,6 @@
 import { Attribute, } from 'parse5';
-import { Scope, } from '../models/scopeModel';
-import { AttributePlugin, PluginInfo, } from '../models/pluginsModel';
+import { Scope, } from '../core/models/scopeModel';
+import { AttributePlugin, PluginInfo, } from '../core/models/pluginsModel';
 
 function attributeVariableNotFound(scope: Scope, attr: Attribute): string {
   console.info(scope.path, 'Unable to replace prop', attr);

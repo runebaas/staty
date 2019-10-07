@@ -1,8 +1,8 @@
-import { PluginInfo, TagPlugin, } from '../models/pluginsModel';
-import { TreeElement, } from '../models/treeElementModel';
-import { Scope, } from '../models/scopeModel';
-import { generateErrorNode, } from '../lib/errorGenerators';
-import { ErrorLevel, MessageManager, } from '../modules/messageManager';
+import { PluginInfo, TagPlugin, } from '../core/models/pluginsModel';
+import { TreeElement, } from '../core/models/treeElementModel';
+import { Scope, } from '../core/models/scopeModel';
+import { generateErrorNode, } from '../core/lib/errorGenerators';
+import { ErrorLevel, MessageManager, } from '../core/modules/messageManager';
 
 export function handleString(doc: TreeElement, scope: Scope): TreeElement {
   const textNode = doc;

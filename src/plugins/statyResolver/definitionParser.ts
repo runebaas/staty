@@ -1,5 +1,5 @@
-import { TreeElement, } from '../../models/treeElementModel';
-import { ComponentDefinition, } from '../../models/componentModel';
+import { TreeElement, } from '../../core/models/treeElementModel';
+import { ComponentDefinition, } from '../../core/models/componentModel';
 import { loadDefinitionFromHtml, } from './definitionParsers/htmlDefinitionParser';
 import { loadDefinitionFromJson, } from './definitionParsers/jsonDefinitionParser';
 import { loadDefinitionFromYaml, } from './definitionParsers/yamlDefinitionParser';

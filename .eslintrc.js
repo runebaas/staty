@@ -234,6 +234,14 @@ const importRules = {
   'import/newline-after-import': [ 'error', ],
   'import/no-self-import': [ 'error', ],
   'import/no-useless-path-segments': [ 'error', ],
+  'import/order': [ 'error', {
+    'newlines-between': 'never',
+    'groups': [
+      'builtin',
+      'external',
+      'internal',
+    ],
+  }, ],
 };
 
 const unicornRules = {

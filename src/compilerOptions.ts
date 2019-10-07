@@ -1,4 +1,4 @@
-import { KeyValue, } from './models/helperTypes';
+import { KeyValue, } from './core/models/helperTypes';
 
 export function checkCompilerOptions(options: CompilerOptions = {}): CompilerOptions {
   const defaultOptions: CompilerOptions = {

@@ -1,8 +1,8 @@
 import { Compiler, } from './compiler';
-import { PluginManager, } from './modules/pluginManager';
+import { PluginManager, } from './core/modules/pluginManager';
 import { CompilerOptions, } from './compilerOptions';
-import { ModuleManager, } from './modules/moduleManager';
-import { MessageManager, } from './modules/messageManager';
+import { ModuleManager, } from './core/modules/moduleManager';
+import { MessageManager, } from './core/modules/messageManager';
 
 export class Staty {
   private readonly options: StatyOptions;

@@ -1,11 +1,11 @@
+import uuid from 'uuid';
 import { AttributePlugin, PluginInfo, PluginsDefinition, TagPlugin, ResolverPlugin, } from '../models/pluginsModel';
-import { markdownPlugin, } from '../plugins/markdownPlugin';
-import { stringInterpolerationPlugin, } from '../plugins/stringInterpolerationPlugin';
-import { attributeInterpolerationPlugin, } from '../plugins/attributeInterpolerationPlugin';
+import { markdownPlugin, } from '../../plugins/markdownPlugin';
+import { stringInterpolerationPlugin, } from '../../plugins/stringInterpolerationPlugin';
+import { attributeInterpolerationPlugin, } from '../../plugins/attributeInterpolerationPlugin';
 import { componentResolverPlugin, } from './componentResolver';
 import { KeyValue, } from '../models/helperTypes';
-import uuid from 'uuid';
-import { statyResolverPlugin, } from '../plugins/statyResolver/statyResolver';
+import { statyResolverPlugin, } from '../../plugins/statyResolver/statyResolver';
 
 export class PluginManager {
   private readonly secretKey = uuid.v4();

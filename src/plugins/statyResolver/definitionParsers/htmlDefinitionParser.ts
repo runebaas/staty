@@ -1,6 +1,6 @@
-import { TreeElement, } from '../../../models/treeElementModel';
-import { ComponentDefinition, } from '../../../models/componentModel';
-import { KeyValue, } from '../../../models/helperTypes';
+import { TreeElement, } from '../../../core/models/treeElementModel';
+import { ComponentDefinition, } from '../../../core/models/componentModel';
+import { KeyValue, } from '../../../core/models/helperTypes';
 
 export function loadDefinitionFromHtml(dom: TreeElement): ComponentDefinition {
   const definition: ComponentDefinition = {

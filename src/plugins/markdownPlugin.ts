@@ -1,13 +1,13 @@
 import * as path from 'path';
 import marked from 'marked';
 import parse5 from 'parse5';
-import { TreeElement, } from '../models/treeElementModel';
-import { readFile, removeTextOffset, } from '../lib/helpers';
-import { Scope, } from '../models/scopeModel';
-import { generateErrorNode, } from '../lib/errorGenerators';
 import highlight from 'highlight.js';
-import { PluginInfo, TagPlugin, } from '../models/pluginsModel';
-import { ErrorLevel, MessageManager, } from '../modules/messageManager';
+import { TreeElement, } from '../core/models/treeElementModel';
+import { readFile, removeTextOffset, } from '../core/lib/helpers';
+import { Scope, } from '../core/models/scopeModel';
+import { generateErrorNode, } from '../core/lib/errorGenerators';
+import { PluginInfo, TagPlugin, } from '../core/models/pluginsModel';
+import { ErrorLevel, MessageManager, } from '../core/modules/messageManager';
 
 async function handleMarkdown(doc: TreeElement, scope: Scope): Promise<TreeElement> {
   const lang = doc.attrs.find(att => att.name === 'lang') || { value: 'text', };

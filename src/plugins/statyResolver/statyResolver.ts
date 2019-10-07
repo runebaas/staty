@@ -1,10 +1,10 @@
 import * as parse5 from 'parse5';
-import { TreeElement, } from '../../models/treeElementModel';
-import { Component, ComponentDefinition, } from '../../models/componentModel';
-import { readFile, } from '../../lib/helpers';
+import { TreeElement, } from '../../core/models/treeElementModel';
+import { Component, ComponentDefinition, } from '../../core/models/componentModel';
+import { readFile, } from '../../core/lib/helpers';
 import { loadDefinition, } from './definitionParser';
-import { generateErrorNode, } from '../../lib/errorGenerators';
-import { PluginInfo, ResolverPlugin, } from '../../models/pluginsModel';
+import { generateErrorNode, } from '../../core/lib/errorGenerators';
+import { PluginInfo, ResolverPlugin, } from '../../core/models/pluginsModel';
 
 function loadSlotContent(dom: TreeElement): TreeElement {
   const nodes = dom

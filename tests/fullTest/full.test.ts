@@ -1,5 +1,5 @@
 import Staty from '../../src/index';
-import { readFile, } from '../../src/lib/helpers';
+import { readFile, } from '../../src/core/lib/helpers';
 import * as path from 'path';
 
 describe('Full Test', () => {

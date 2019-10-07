@@ -1,7 +1,7 @@
+import { Attribute as DomAttribute, } from 'parse5';
 import { KeyValue, } from './helperTypes';
 import { TreeElement, } from './treeElementModel';
 import { Scope, } from './scopeModel';
-import { Attribute as DomAttribute, } from 'parse5';
 import { Component, } from './componentModel';
 
 export interface PluginsDefinition {

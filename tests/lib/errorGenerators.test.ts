@@ -1,4 +1,4 @@
-import { generateErrorNode, } from '../../src/lib/errorGenerators';
+import { generateErrorNode, } from '../../src/core/lib/errorGenerators';
 
 describe('GenerateErrorNode', () => {
   test('Generate Error Node', () => {
