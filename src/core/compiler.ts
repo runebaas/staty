@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as parse5 from 'parse5';
 import { html_beautify as htmlBeautify, } from 'js-beautify';
-import { readFile, } from './core/lib/helpers';
-import { TreeElement, } from './core/models/treeElementModel';
+import { readFile, } from './lib/helpers';
+import { TreeElement, } from './models/treeElementModel';
 import { CompilerOptions, checkCompilerOptions, } from './compilerOptions';
-import { ModuleManager, } from './core/modules/moduleManager';
-import { ElementManager, } from './core/modules/elementManager';
+import { ModuleManager, } from './modules/moduleManager';
+import { ElementManager, } from './modules/elementManager';
 
 export class Compiler {
   private readonly options: CompilerOptions;
