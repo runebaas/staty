@@ -1,16 +1,19 @@
 import { TreeElement, } from '../models/treeElementModel';
 import { Scope, } from '../models/scopeModel';
 import { PluginManager, } from './pluginManager';
+import { ErrorLevel, MessageManager, } from './messageManager';
 
 export class ElementManager {
   private readonly doc: TreeElement;
   private readonly scope: Scope;
   private readonly pluginManager: PluginManager;
+  private readonly messageManager: MessageManager;
 
   constructor(doc: TreeElement, scope: Scope) {
     this.doc = doc;
     this.scope = scope;
     this.pluginManager = scope.moduleManager.tryGetModule<PluginManager>('pluginManager');
+    this.messageManager = scope.moduleManager.tryGetModule<MessageManager>('messageManager');
   }
 
   public async handleElement(): Promise<TreeElement> {
@@ -21,7 +24,7 @@ export class ElementManager {
       try {
         newDoc.attrs = await plugin.func(newDoc.attrs, this.scope);
       } catch (error) {
-        error.message = `${plugin.name}: ${error.message}`;
+        this.messageManager.addMessage({ level: ErrorLevel.Fatal, error: error, message: `${plugin.name}: ${error.message}`, source: this.scope.path, });
         throw error;
       }
     }

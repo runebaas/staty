@@ -2,7 +2,7 @@ import { Compiler, } from './compiler';
 import { PluginManager, } from './modules/pluginManager';
 import { CompilerOptions, } from './compilerOptions';
 import { ModuleManager, } from './modules/moduleManager';
-import { ErrorManager, } from './modules/errorManager';
+import { MessageManager, } from './modules/messageManager';
 
 export class Staty {
   private readonly options: StatyOptions;
@@ -17,11 +17,11 @@ export class Staty {
     const pluginManager = new PluginManager();
     pluginManager.addDefaultPlugins();
 
-    const errorManager = new ErrorManager();
+    const messageManager = new MessageManager();
 
     this.moduleManager = new ModuleManager({
       pluginManager,
-      errorManager,
+      messageManager,
     });
   }
 

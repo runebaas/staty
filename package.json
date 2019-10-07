@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "clean-stack": "^2.2.0",
     "highlight.js": "^9.15.10",
     "js-beautify": "1.10.2",
     "js-yaml": "^3.13.1",
