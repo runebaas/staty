@@ -8,14 +8,15 @@ import { PluginManager, } from './pluginManager';
 import { ModuleManager, } from './moduleManager';
 
 const getResolver = (filePath: string, moduleManager: ModuleManager): PluginInfo<ResolverPlugin> => {
-  const { fileExtension, } = filePath.match(/.*\.(?<fileExtension>\w+)$/u).groups;
-  const { resolverPlugins, } = moduleManager.tryGetModule<PluginManager>('pluginManager');
+  const fileExtension = path.extname(filePath);
 
   if (fileExtension === undefined) {
     throw new Error(`File "${filePath}" has no extension`);
   }
 
-  const resolver = resolverPlugins[fileExtension];
+  const { resolverPlugins, } = moduleManager.tryGetModule<PluginManager>('pluginManager');
+  const resolver = resolverPlugins[fileExtension.slice(1)];
+
   if (resolver === undefined) {
     throw new Error(`No resolver defined for file extension "${fileExtension}"`);
   }
@@ -35,11 +36,13 @@ async function ComponentResolver(comp: TreeElement, scope: Scope): Promise<TreeE
 
   const newComp = await resolver.func(filePath, scope);
 
-  const defaultAttributes = newComp.definition.props.reduce<KeyValue>((result, prop) => {
-    result[prop.name] = prop.default;
+  const defaultAttributes = newComp.definition.props !== undefined
+    ? newComp.definition.props.reduce<KeyValue>((result, prop) => {
+      result[prop.name] = prop.default;
 
-    return result;
-  }, {});
+      return result;
+    }, {})
+    : {};
 
   if (newComp.leaveUntouched) {
     return newComp.slot;

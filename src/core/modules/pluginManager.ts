@@ -1,11 +1,12 @@
 import uuid from 'uuid';
 import { AttributePlugin, PluginInfo, PluginsDefinition, TagPlugin, ResolverPlugin, } from '../models/pluginsModel';
-import { markdownPlugin, } from '../../plugins/markdownPlugin';
+import { markdownParsePlugin, } from '../../plugins/markdownParsePlugin';
 import { stringInterpolerationPlugin, } from '../../plugins/stringInterpolerationPlugin';
 import { attributeInterpolerationPlugin, } from '../../plugins/attributeInterpolerationPlugin';
 import { componentResolverPlugin, } from './componentResolver';
 import { KeyValue, } from '../models/helperTypes';
 import { statyResolverPlugin, } from '../../plugins/statyResolver/statyResolver';
+import { markdownResolverPlugin, } from '../../plugins/markdownResolverPlugin';
 
 export class PluginManager {
   private readonly secretKey = uuid.v4();
@@ -16,13 +17,14 @@ export class PluginManager {
   };
 
   public addDefaultPlugins(): void {
-    this.addTagPlugin('parse', markdownPlugin);
+    this.addTagPlugin('parse', markdownParsePlugin);
     this.addTagPlugin('#text', stringInterpolerationPlugin);
     this.addTagPlugin(this.secretKey, componentResolverPlugin);
 
     this.addAttributePlugin(attributeInterpolerationPlugin);
 
     this.addResolverPlugin('staty', statyResolverPlugin);
+    this.addResolverPlugin('md', markdownResolverPlugin);
   }
 
   public addTagPlugin(tag: string, plugin: PluginInfo<TagPlugin>): void {

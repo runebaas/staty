@@ -8,7 +8,7 @@
     <component path="./components/variables.staty" some-text="Hello" classes="big-text"></component>
   </div>
   <div id="parse">
-    <component path="./components/parse.staty"></component>
+    <component path="./components/markdown.md"></component>
   </div>
   <div id="inline-parse">
     <component path="./components/parse-inline.staty"></component>
