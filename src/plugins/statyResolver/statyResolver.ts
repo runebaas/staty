@@ -4,6 +4,7 @@ import { Component, ComponentDefinition, } from '../../models/componentModel';
 import { readFile, } from '../../lib/helpers';
 import { loadDefinition, } from './definitionParser';
 import { generateErrorNode, } from '../../lib/errorGenerators';
+import { PluginInfo, ResolverPlugin, } from '../../models/pluginsModel';
 
 function loadSlotContent(dom: TreeElement): TreeElement {
   const nodes = dom
@@ -20,7 +21,7 @@ function loadSlotContent(dom: TreeElement): TreeElement {
 }
 
 
-export async function loadComponent(filePath: string): Promise<Component> {
+export async function loadStatyComponent(filePath: string): Promise<Component> {
   const entry = await readFile(filePath);
   const dom = parse5.parseFragment(entry.toString(), { scriptingEnabled: false, }) as TreeElement;
   const componentNode = dom.childNodes.find(node => node.tagName === 'component');
@@ -52,3 +53,8 @@ export async function loadComponent(filePath: string): Promise<Component> {
     slot: content,
   };
 }
+
+export const statyResolverPlugin: PluginInfo<ResolverPlugin> = {
+  name: 'Staty Component Resolver',
+  func: loadStatyComponent,
+};

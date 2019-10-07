@@ -1,24 +1,28 @@
-import { AttributePlugin, PluginInfo, PluginsDefinition, TagPlugin, } from '../models/pluginsModel';
+import { AttributePlugin, PluginInfo, PluginsDefinition, TagPlugin, ResolverPlugin, } from '../models/pluginsModel';
 import { markdownPlugin, } from '../plugins/markdownPlugin';
 import { stringInterpolerationPlugin, } from '../plugins/stringInterpolerationPlugin';
 import { attributeInterpolerationPlugin, } from '../plugins/attributeInterpolerationPlugin';
-import { componentPlugin, } from '../plugins/component/componentPlugin';
+import { componentResolverPlugin, } from './componentResolver';
 import { KeyValue, } from '../models/helperTypes';
 import uuid from 'uuid';
+import { statyResolverPlugin, } from '../plugins/statyResolver/statyResolver';
 
 export class PluginManager {
   private readonly secretKey = uuid.v4();
   private loadedPlugins: PluginsDefinition = {
     attributes: [],
     tags: {},
+    resolvers: {},
   };
 
   public addDefaultPlugins(): void {
     this.addTagPlugin('parse', markdownPlugin);
     this.addTagPlugin('#text', stringInterpolerationPlugin);
-    this.addTagPlugin(this.secretKey, componentPlugin);
+    this.addTagPlugin(this.secretKey, componentResolverPlugin);
 
     this.addAttributePlugin(attributeInterpolerationPlugin);
+
+    this.addResolverPlugin('staty', statyResolverPlugin);
   }
 
   public addTagPlugin(tag: string, plugin: PluginInfo<TagPlugin>): void {
@@ -43,11 +47,23 @@ export class PluginManager {
     this.loadedPlugins.attributes.push(plugin);
   }
 
+  public addResolverPlugin(fileExtension: string, plugin: PluginInfo<ResolverPlugin>): void {
+    if (this.loadedPlugins.resolvers[fileExtension] !== undefined) {
+      throw new Error(`A resolver for "${fileExtension}" has already been defined`);
+    }
+
+    this.loadedPlugins.resolvers[fileExtension] = plugin;
+  }
+
   get tagPlugins(): KeyValue<PluginInfo<TagPlugin>[]> {
     return this.loadedPlugins.tags;
   }
 
   get attributePlugins(): PluginInfo<AttributePlugin>[] {
     return this.loadedPlugins.attributes;
+  }
+
+  get resolverPlugins(): KeyValue<PluginInfo<ResolverPlugin>> {
+    return this.loadedPlugins.resolvers;
   }
 }

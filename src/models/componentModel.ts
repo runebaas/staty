@@ -3,6 +3,7 @@ import { TreeElement, } from './treeElementModel';
 export interface Component {
   definition: ComponentDefinition;
   slot: TreeElement;
+  leaveUntouched?: boolean;
 }
 
 export interface ComponentDefinition {
